@@ -32,7 +32,6 @@ public class MenuController
             Console.WriteLine("");
             Console.Write("Choose option: ");
 
-
             var option = Console.ReadLine();
 
             switch (option)
@@ -53,7 +52,6 @@ public class MenuController
                     break;
             }
         }
-
     }
 
     private void CreateCustomer()
@@ -94,7 +92,6 @@ public class MenuController
             Console.WriteLine("Something went wrong. Please try again.");
         }
         OutputDialog("Press any key to continue.");
-
     }
 
     private void ViewAllCustomers()
@@ -125,7 +122,6 @@ public class MenuController
                 Console.WriteLine();
             }
         }
-
         OutputDialog("Press any key to continue.");
     }
 
