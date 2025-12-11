@@ -1,7 +1,5 @@
 ﻿using CManager.Application.Services;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using CManager.Presentation.ConsoleApp.Helpers;
 
 namespace CManager.Presentation.ConsoleApp.Controllers;
 
@@ -23,12 +21,12 @@ public class MenuController
             Console.WriteLine("------ Customer Managagement System ------");
             Console.WriteLine("");
             Console.WriteLine("1. Create Customer");
-            //Console.WriteLine("2. Update Specific Custumer");
+            Console.WriteLine("2. Update Specific Customer");
             Console.WriteLine("3. View All Customers");
-            //Console.WriteLine("4. View Specific Customer");
-            //Console.WriteLine("5. Delete All Customers");
-            //Console.WriteLine("6. Delete Specific Customer");
-            Console.WriteLine("0. Exit System");
+            Console.WriteLine("4. View Specific Customer");
+            Console.WriteLine("5. Delete All Customers");
+            Console.WriteLine("6. Delete Specific Customer");
+            Console.WriteLine("0. Quit Application");
             Console.WriteLine("");
             Console.Write("Choose option: ");
 
@@ -41,14 +39,31 @@ public class MenuController
                     break;
 
                 case "2":
+                    UpdateSpecificCustomer();
+                    break;
+
+                case "3":
                     ViewAllCustomers();
                     break;
 
+                case "4":
+                    ViewSpecificCustomer();
+                    break;
+
+                case "5":
+                    DeleteAllCustomers();
+                    break;
+
+                case "6":
+                    DeleteSpecificCustomers();
+                    break;
+
                 case "0":
+                    QuitApplicationDialog();
                     return;
 
                 default:
-                    OutputDialog("Invalid option. Press any key to continue.");
+                    InvalidOptionDialog("Invalid option. Press any key to continue.");
                     break;
             }
         }
@@ -59,26 +74,13 @@ public class MenuController
         Console.Clear();
         Console.WriteLine("------ Create Customer ------");
 
-        Console.Write("First Name: ");
-        var firstName = Console.ReadLine()!;
-
-        Console.Write("Last Name: ");
-        var lastName = Console.ReadLine()!;
-
-        Console.Write("Email: ");
-        var email = Console.ReadLine()!;
-
-        Console.Write("PhoneNumber: ");
-        var phoneNumber = Console.ReadLine()!;
-
-        Console.Write("Street Address: ");
-        var streetAddress = Console.ReadLine()!;
-
-        Console.Write("Postal Code: ");
-        var postalCode = Console.ReadLine()!;
-
-        Console.Write("City: ");
-        var city = Console.ReadLine()!;
+        var firstName = InputHelper.ValidateInput("First name", ValidationType.Required);
+        var lastName = InputHelper.ValidateInput("Last name", ValidationType.Required);
+        var email = InputHelper.ValidateInput("Email", ValidationType.Email);
+        var phoneNumber = InputHelper.ValidateInput("PhoneNumber", ValidationType.Required);
+        var streetAddress = InputHelper.ValidateInput("StreetAddress", ValidationType.Required);
+        var postalCode = InputHelper.ValidateInput("PostalCode", ValidationType.Required);
+        var city = InputHelper.ValidateInput("City", ValidationType.Required);
 
         var result = _customerService.CreateCustomer(firstName, lastName, email, phoneNumber, streetAddress, postalCode, city);
 
@@ -91,7 +93,24 @@ public class MenuController
         {
             Console.WriteLine("Something went wrong. Please try again.");
         }
-        OutputDialog("Press any key to continue.");
+        InvalidOptionDialog("Press any key to continue.");
+    }
+
+    private void UpdateSpecificCustomer()
+    {
+        Console.Clear();
+        Console.WriteLine("------ Update Customer  ------");
+
+        /*if (result)
+        {
+            Console.WriteLine("Customer was successfully created.");
+            Console.WriteLine($"Name: {firstName} {lastName}");
+        }
+        else
+        {
+            Console.WriteLine("Something went wrong. Please try again.");
+        }
+        InvalidOptionDialog("Press any key to continue.");*/
     }
 
     private void ViewAllCustomers()
@@ -116,20 +135,101 @@ public class MenuController
             {
                 Console.WriteLine($"Name: {customer.FirstName} {customer.LastName}");
                 Console.WriteLine($"Email: {customer.Email}");
-                Console.WriteLine($"Phone: {customer.PhoneNumber}");
-                Console.WriteLine($"Address: {customer.Address.StreetAddress} {customer.Address.PostalCode} {customer.Address.City}");
-                Console.WriteLine($"ID: {customer.Id}");
                 Console.WriteLine();
             }
         }
-        OutputDialog("Press any key to continue.");
+        InvalidOptionDialog("Press any key to continue.");
     }
 
-    private void OutputDialog(string message)
+    private void ViewSpecificCustomer()
     {
+        Console.Clear();
+        Console.WriteLine("------ Specific Customers ------");
+        /*
+        var customers = _customerService.GetAllCustomers(out bool hasError);
+
+        if (hasError)
+        {
+            Console.WriteLine("Something went wrong. Please try again later.");
+        }
+
+        if (!customers.Any())
+        {
+            Console.WriteLine("No customers found.");
+        }
+        else
+        {
+            foreach (var customer in customers)
+            {
+                Console.WriteLine($"Name: {customer.FirstName} {customer.LastName}");
+                Console.WriteLine($"ID: {customer.Id}");
+                Console.WriteLine($"Phone: {customer.PhoneNumber}");
+                Console.WriteLine($"Email: {customer.Email}");                
+                Console.WriteLine($"Address: {customer.Address.StreetAddress} {customer.Address.PostalCode} {customer.Address.City}");
+                
+                Console.WriteLine();
+            }
+        }
+        InvalidOptionDialog("Press any key to continue.");*/
+    }
+
+    private void DeleteAllCustomers()
+    {
+        Console.Clear();
+        Console.WriteLine("------ Delete All Customers ------");
+        Console.Write("You are about to remove all customers. \n\nAre you sure you want to do that? (y/n): ");
+        var option = Console.ReadLine()!;
+
+        if (option.ToLower() == "y")
+        {
+            Console.Clear();
+            /*
+            var result = _customerService.RemoveAll();
+            if (result)
+                Console.WriteLine("All customers was successfully removed");
+            else
+                Console.WriteLine("Someting went wrong. Customers was not removed.");
+            Console.ReadKey();*/
+        }
+    }
+
+    private void DeleteSpecificCustomers()
+    {
+        Console.Clear();
+        Console.WriteLine("------ Delete Specific Customer ------");
+        Console.Write("You are about to remove (Customer) from customers. \n\nAre you sure you want to do that? (y/n): ");
+        var option = Console.ReadLine()!;
+
+        if (option.ToLower() == "y")
+        {
+            Console.Clear();
+            /*
+
+            var result = _customerService.RemoveSpecificCustomer();
+            if (result)
+                Console.WriteLine("(Customer) was successfully removed");
+            else
+                Console.WriteLine("Someting went wrong. Customers was not removed.");
+            Console.ReadKey();*/
+        }
+
+    }
+
+    public void QuitApplicationDialog()
+    {
+        Console.Clear();
+        Console.WriteLine("------- Quit application -------\n");
+        Console.Write("Are you sure you want to exit the appliction? (y/n): ");
+        var option = Console.ReadLine()!;
+
+        if (option.ToLower() == "y")
+            Environment.Exit(0);
+    }
+
+    private void InvalidOptionDialog(string message)
+    {
+        Console.WriteLine("");
         Console.WriteLine(message);
         Console.ReadKey();
     }
 }
-
-// validering av fälten
