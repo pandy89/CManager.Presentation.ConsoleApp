@@ -1,4 +1,5 @@
 ﻿using CManager.Application.Services;
+using CManager.Presentation.ConsoleApp.Helpers;
 
 namespace CManager.Presentation.ConsoleApp.Controllers;
 
@@ -50,27 +51,13 @@ public class MenuController
         Console.Clear();
         Console.WriteLine("Create Customer");
 
-        Console.Write("First Name: ");
-        var firstName = Console.ReadLine()!;
-
-        Console.Write("Last Name: ");
-        var lastName = Console.ReadLine()!;
-
-        Console.Write("Email: ");
-        var email = Console.ReadLine()!;
-
-        Console.Write("PhoneNumber: ");
-        var phoneNumber = Console.ReadLine()!;
-
-        Console.Write("Street Address: ");
-        var streetAddress = Console.ReadLine()!;
-
-        Console.Write("Postal Code: ");
-        var postalCode = Console.ReadLine()!;
-
-        Console.Write("City: ");
-        var city = Console.ReadLine()!;
-
+        var firstName = InputHelper.ValidateInput("First name", ValidationType.Required);
+        var lastName = InputHelper.ValidateInput("Last name", ValidationType.Required);
+        var email = InputHelper.ValidateInput("Email", ValidationType.Email);
+        var phoneNumber = InputHelper.ValidateInput("PhoneNumber", ValidationType.Required);
+        var streetAddress = InputHelper.ValidateInput("Address", ValidationType.Required);
+        var postalCode = InputHelper.ValidateInput("PostalCode", ValidationType.Required);
+        var city = InputHelper.ValidateInput("City", ValidationType.Required);
 
         var result = _customerService.CreateCustomer(firstName, lastName, email, phoneNumber, streetAddress, postalCode, city);
 
