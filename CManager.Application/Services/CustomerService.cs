@@ -1,5 +1,8 @@
 ﻿using CManager.Domain.Models;
 using CManager.Infrastructure.Repos;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace CManager.Application.Services;
 
@@ -15,9 +18,6 @@ public class CustomerService : ICustomerService
 
     public bool CreateCustomer(string firstName, string lastName, string email, string phoneNumber, string streetAddress, string postalCode, string city)
     {
-
-        //validering isnullorempty(firstNAme) 
-
         CustomerModel customerModel = new()
         {
             Id = Guid.NewGuid(),
@@ -44,9 +44,6 @@ public class CustomerService : ICustomerService
         {
             return false;
         }
-
-
-
     }
 
 
@@ -69,9 +66,5 @@ public class CustomerService : ICustomerService
 
         }
 
-
-
-
     }
 }
-
