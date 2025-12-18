@@ -8,9 +8,9 @@ public enum ValidationType
     Email,
 }
 
+//Validation that a field is filled in. 
 public static class InputHelper
 {
-
     public static string ValidateInput(string fieldName, ValidationType validationType)
     {
         while (true)
@@ -36,8 +36,7 @@ public static class InputHelper
 
     }
 
-
-
+    //Validation that an email address has been entered.
     private static (bool isValid, string errorMessage) ValidateType(string input, ValidationType type)
     {
         switch (type)
@@ -59,10 +58,9 @@ public static class InputHelper
             default:
                 return (true, "");
         }
-
     }
 
-
+    //RegEx of the email.
     private static bool IsValidEmail(string input)
     {
         var pattern = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
