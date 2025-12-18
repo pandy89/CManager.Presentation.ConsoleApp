@@ -1,7 +1,4 @@
 ﻿using CManager.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Text.Json;
 
 namespace CManager.Infrastructure.Repos;
@@ -24,9 +21,6 @@ public class CustomerRepo : ICustomerRepo
         };
     }
 
-
-
-
     public List<CustomerModel> GetAllCustomers()
     {
         if (!File.Exists(_filePath))
@@ -39,22 +33,18 @@ public class CustomerRepo : ICustomerRepo
             var json = File.ReadAllText(_filePath);
             var customers = JsonSerializer.Deserialize<List<CustomerModel>>(json, _jsonOptions);
             return customers ?? [];
-
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error loading customers: {ex.Message}");
             throw;
         }
-
-
     }
 
     public bool SaveCustomers(List<CustomerModel> customers)
     {
         if (customers == null)
             return false;
-
 
         try
         {
@@ -65,13 +55,11 @@ public class CustomerRepo : ICustomerRepo
 
             File.WriteAllText(_filePath, json);
             return true;
-
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Error saving customers: {ex.Message}");
             return false;
         }
-
     }
 }

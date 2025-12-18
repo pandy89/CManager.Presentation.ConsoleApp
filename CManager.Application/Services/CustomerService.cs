@@ -1,21 +1,13 @@
 ﻿using CManager.Domain.Models;
 using CManager.Infrastructure.Repos;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CManager.Application.Services;
 
-public class CustomerService : ICustomerService
+public class CustomerService(ICustomerRepo customerRepo): ICustomerService
 {
+    private readonly ICustomerRepo _customerRepo = customerRepo;
 
-    private readonly ICustomerRepo _customerRepo;
-
-    public CustomerService(ICustomerRepo customerRepo)
-    {
-        _customerRepo = customerRepo;
-    }
-
+    //What the customer must have to been created. 
     public bool CreateCustomer(string firstName, string lastName, string email, string phoneNumber, string streetAddress, string postalCode, string city)
     {
         CustomerModel customerModel = new()
@@ -46,9 +38,7 @@ public class CustomerService : ICustomerService
         }
     }
 
-
-
-
+    //
     public IEnumerable<CustomerModel> GetAllCustomers(out bool hasError)
     {
         hasError = false;
@@ -60,11 +50,38 @@ public class CustomerService : ICustomerService
         }
         catch (Exception)
         {
-            // här kommer throw hamna från customerrepo - getallcustomers
             hasError = true;
             return [];
-
         }
-
     }
+
+    //What the 
+    public bool DeleteCustomer(Guid id)
+    {
+        try
+        {
+            var customers = _customerRepo.GetAllCustomers();
+            var customer = customers.FirstOrDefault(c => c.Id == id); // Lamda expression
+
+            //Information of Lamda Expression.
+
+            //foreach (var c in customer)
+            //if (c.id == id) return c
+            //return null
+
+            if (customer == null)
+                return false;
+
+            customers.Remove(customer);
+            var result = _customerRepo.SaveCustomers(customers);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            {
+                Console.WriteLine($"Error deleting customer: {ex.Message}");
+                return false;
+            }
+        }
+    }   
 }
