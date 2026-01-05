@@ -1,5 +1,6 @@
 ﻿using CManager.Domain.Models;
 using CManager.Infrastructure.Repos;
+using System.Diagnostics;
 
 namespace CManager.Application.Services;
 
@@ -58,6 +59,9 @@ public class CustomerService(ICustomerRepo customerRepo): ICustomerService
     //What the 
     public bool DeleteCustomer(Guid id)
     {
+        if (id == Guid.Empty)
+            return false;
+
         try
         {
             var customers = _customerRepo.GetAllCustomers();
@@ -83,5 +87,23 @@ public class CustomerService(ICustomerRepo customerRepo): ICustomerService
                 return false;
             }
         }
-    }   
+    }
+
+    
+    // gets a single customer from the list by email address 
+    // <returns>returns a single contact if the contact exists, returns null if else</returns>
+    public CustomerModel GetSingleCustomer(string email)
+    {
+        try
+        {
+            var customers = _customerRepo.GetAllCustomers();
+            var customer = customers.FirstOrDefault(e => e.Email == email);
+            return customer ??= null!;
+        }
+        catch (Exception ex) 
+        { 
+            Debug.WriteLine("" + ex.Message); 
+        }
+        return null!;
+    }
 }
