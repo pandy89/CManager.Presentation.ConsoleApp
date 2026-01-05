@@ -103,13 +103,98 @@ public class MenuController(ICustomerService customerService)
             foreach (var customer in customers)
             {
                 Console.WriteLine($"Name: {customer.FirstName} {customer.LastName}");
-                Console.WriteLine($"Email: {customer.Email}");                
+                Console.WriteLine($"Email: {customer.Email}");
                 Console.WriteLine();
                 Console.WriteLine("___________________________________________");
                 Console.WriteLine();
             }
+
+            Console.WriteLine("Please copy the email (ctrl+c) of the customer you wish to view later.");
+            Console.WriteLine("");
+            Console.WriteLine("Please select an option:");
+            Console.WriteLine("");
+            Console.WriteLine("1. Add a new customer");
+            Console.WriteLine("2. View a customer details");
+            Console.WriteLine("3. Delete a customer");
+            Console.WriteLine("4. Back to main menu");
+            Console.WriteLine("");
+            Console.Write("Enter your option: ");
+            var option = Console.ReadLine();
+            switch (option)
+            {
+                case "1":
+                    CreateCustomer();
+                    break;
+                case "2":
+                    ShowSingleCustomer();
+                    break;
+                case "3":
+                    DeleteCustomer();
+                    break;
+                case "4":
+                    ShowMenu();
+                    break;
+                default:
+                    Console.WriteLine("Invalid option. Please try again.");
+                    ViewAllCustomers();
+                    break;
+            }
+
         }
         InvalidOptionDialog("Press any key to continue.");
+        
+    }
+
+    public void ShowSingleCustomer()
+    {
+        Console.Clear();
+        Console.Write("Enter email address: ");
+        var email = Console.ReadLine();
+        var customer = _customerService.GetSingleCustomer(email!);
+        if (customer != null)
+        {
+            Console.WriteLine("");
+            Console.WriteLine($"First Name: {customer.FirstName}");
+            Console.WriteLine($"Last Name: {customer.LastName}");
+            Console.WriteLine($"Email: {customer.Email}");
+            Console.WriteLine($"Phone Number: {customer.PhoneNumber}");
+            Console.WriteLine($"Streetaddress: {customer.Address.StreetAddress}");
+            Console.WriteLine($"Postal Code: {customer.Address.PostalCode}");
+            Console.WriteLine($"City: {customer.Address.City}");
+            Console.WriteLine("");
+            Console.WriteLine("Please select an option:");
+            Console.WriteLine("");
+            Console.WriteLine("1. Back to main menu");
+            Console.WriteLine("2. List all customers");
+            Console.WriteLine("3. Delete customer");
+            Console.WriteLine("");
+            Console.Write("Enter your option: ");
+            var option = Console.ReadLine();
+            switch (option)
+            {
+                case "1":
+                    ShowMenu();
+                    break;
+                case "2":
+                    ViewAllCustomers();
+                    break;
+                case "3":
+                    DeleteCustomer();
+                    break;
+                default:
+                    Console.WriteLine("Invalid option. Please try again.");
+                    ShowSingleCustomer();
+                    break;
+            }
+        }
+        else
+        {
+            Console.WriteLine("No customer found with the given email address.");
+            Console.WriteLine("");
+            Console.WriteLine("Press any key to go back to main menu");
+            Console.ReadKey();
+            ShowMenu();
+        }
     }
 
     //Deleting of a customer from a list. 
@@ -197,7 +282,7 @@ public class MenuController(ICustomerService customerService)
                     else if (confirmation == "n")
                     {
                         //Return the user´s choice if the user enters n. 
-                        return; //break hade endast kommit ur den whileloop som vi befinner oss i.
+                        return;
                     }
                     else
                     {

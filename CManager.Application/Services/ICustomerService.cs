@@ -10,4 +10,7 @@ public interface ICustomerService
     IEnumerable<CustomerModel> GetAllCustomers(out bool hasError);
 
     bool DeleteCustomer(Guid id);
+
+    CustomerModel GetSingleCustomer(string email);
+
 }
