@@ -90,8 +90,7 @@ public class CustomerService(ICustomerRepo customerRepo): ICustomerService
     }
 
     
-    // gets a single customer from the list by email address 
-    // <returns>returns a single contact if the contact exists, returns null if else</returns>
+    // gets a single customer from the list by email address
     public CustomerModel GetSingleCustomer(string email)
     {
         try
@@ -104,6 +103,6 @@ public class CustomerService(ICustomerRepo customerRepo): ICustomerService
         { 
             Debug.WriteLine("" + ex.Message); 
         }
-        return null!;
+        return null!; 
     }
 }
