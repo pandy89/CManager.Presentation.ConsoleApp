@@ -6,6 +6,11 @@
         xmlns:local="clr-namespace:CManager.Presentation.GuiApp"
         xmlns:models="clr-namespace:CManager.Presentation.GuiApp.Models"
         xmlns:converters="clr-namespace:CManager.Presentation.GuiApp.Converters"
+        
+        xmlns:views="clr-namespace:CManager.Presentation.GuiApp.Views"
+        xmlns:viewmodels="clr-namespace:CManager.Presentation.GuiApp.ViewModels"        
+        d:DataContext="{d:DesignInstance Type=viewmodels:MainViewModel}"
+        
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
@@ -13,42 +18,22 @@
         Background="#4B5945"
         Title="CManager" Height="450" Width="300">
 
-    <Window.Resources>
-        <converters:ActivityStatusConverter x:Key="ActivityStatusConverter" />
-    </Window.Resources>
-
-
     <Grid Margin="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <StackPanel Grid.Row="0">
-            <Label Content="Activity: " FontSize="12" FontFamily="Arial" FontStyle="Normal" FontWeight="Bold" Foreground="#B2C9AD" Background="#4B5945" Margin="0" Padding="0" />
-            <TextBox x:Name="Activity" Margin="0, 5, 0, 5" Padding="5" />
-            <Button x:Name="AddActivity" Content="Add" Padding="5" Click="AddActivity_Click" />
-        </StackPanel>
-
-        <ListView Grid.Row="1" x:Name="Activities" Margin="0, 30, 0 ,0" Padding="5" HorizontalContentAlignment="Stretch">
-            <ListView.ItemTemplate>
-                <DataTemplate DataType="models:ActivityItem">
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        
-                        <StackPanel Grid.Column="0">
-                            <TextBlock Text="{Binding Activity}" Padding="5" />
-                            <TextBlock Text="{Binding IsCompleted, Converter={StaticResource ActivityStatusConverter}}" Padding="5" FontSize="10" />
-                        </StackPanel>
-                        
-                        
-                        <Button x:Name="ChangeStatus" Grid.Column="1" Content="Mark as completed" Click="ChangeStatus_Click" HorizontalAlignment="Right"/>
-                    </Grid>                    
+        <ContentControl Content="{Binding CurrentViewModel}" >
+            <ContentControl.Resources>
+                
+                <DataTemplate DataType="{x:Type viewmodels:ActivitiesViewModel}">
+                    <views:ActivitiesView />
                 </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+
+                <DataTemplate DataType="{x:Type viewmodels:AddActivityViewModel}">
+                    <views:AddActivityView />
+                </DataTemplate>
+
+
+            </ContentControl.Resources>
+        </ContentControl>
+        
     </Grid>
     
     
