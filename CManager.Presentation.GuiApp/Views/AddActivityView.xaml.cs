@@ -1,5 +1,5 @@
-﻿using CManager.Presentation.GuiApp.Models;
-using CManager.Presentation.GuiApp.ViewModels;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -11,17 +11,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CManager.Presentation.GuiApp
+namespace CManager.Presentation.GuiApp.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AddActivityView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AddActivityView : UserControl
     {
-        public MainWindow(MainViewModel viewModel)
+        public AddActivityView()
         {
             InitializeComponent();
-            DataContext = viewModel;
         }
     }
 }
